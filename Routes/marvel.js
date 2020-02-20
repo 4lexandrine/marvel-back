@@ -16,12 +16,19 @@ const hash = md5(toHash);
 router.get("/characters", async (req, res) => {
     try {
         const offset = req.query.offset;
+        const search = req.query.nameStartsWith;
 
-        const url = `http://gateway.marvel.com/v1/public/characters?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
-        const response = await axios.get(url);
-
-        const data = response.data.data;
-        res.json(data);
+        if (!search) {
+            const url = `http://gateway.marvel.com/v1/public/characters?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
+            const response = await axios.get(url);
+            const data = response.data.data;
+            res.json(data);
+        } else {
+            const urlChar = `https://gateway.marvel.com:443/v1/public/characters?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}&nameStartsWith=${search}`;
+            const response = await axios.get(urlChar);
+            const data = response.data.data;
+            res.json(data);
+        }
 
         // const newCharacter = new Character({
         //     id: data.id,
@@ -44,7 +51,7 @@ router.get("/characters", async (req, res) => {
     }
 })
 
-router.get("/characters/character/:id", async (req, res) => {
+router.get("/characters/character/:id?", async (req, res) => {
     try {
         const idSearch = await Characters.findById(req.params.id);
         res.json(idSearch);
@@ -54,15 +61,27 @@ router.get("/characters/character/:id", async (req, res) => {
 })
 
 router.get("/comics", async (req, res) => {
-    const offset = req.query.offset;
+    try {
+        const offset = req.query.offset;
+        const search = req.query.nameStartsWith;
 
-    const url = `http://gateway.marvel.com/v1/public/comics?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
+        if (!search) {
+            const url = `http://gateway.marvel.com/v1/public/comics?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}`;
+            const response = await axios.get(url);
+            const data = response.data.data;
+            res.json(data);
+        } else {
+            const urlComics = `https://gateway.marvel.com:443/v1/public/comics?limit=100&ts=${ts}&apikey=${publicKey}&hash=${hash}&offset=${offset}&nameStartsWith=${search}`;
+            const response = await axios.get(urlComics);
+            const data = response.data.data;
+            res.json(data);
+        }
+    } catch (error) {
+        res.json({ error: error.message });
+    }
 
-    const response = await axios.get(url);
-    // console.log(response.data);
-    const data = response.data.data;
-    res.json(data);
 })
+
 
 module.exports = router;
 
