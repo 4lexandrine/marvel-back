@@ -8,8 +8,8 @@ const app = express();
 app.use(formidableMiddleware());
 app.use(cors());
 
-const charactersRoute = require("./Routes/characters");
-app.use(charactersRoute);
+const marvelRoute = require("./Routes/marvel");
+app.use(marvelRoute);
 
 mongoose.connect("mongodb://localhost/marvel", {
     useNewUrlParser: true,
