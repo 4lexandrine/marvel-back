@@ -82,6 +82,5 @@ router.get("/comics", async (req, res) => {
 
 })
 
-
 module.exports = router;
 
