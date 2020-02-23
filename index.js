@@ -8,8 +8,11 @@ const app = express();
 app.use(formidableMiddleware());
 app.use(cors());
 
-const marvelRoute = require("./Routes/marvel");
-app.use(marvelRoute);
+const charactersRoute = require("./Routes/characters");
+const comicsRoute = require("./Routes/comics");
+
+app.use(charactersRoute);
+app.use(comicsRoute);
 
 mongoose.connect("mongodb://localhost/marvel", {
     useNewUrlParser: true,
@@ -19,7 +22,7 @@ mongoose.connect("mongodb://localhost/marvel", {
 
 
 app.get("/", (req, res) => {
-    res.json("Welcome to Marvel API");
+    res.json("Welcome to Marvel API local");
 });
 
 app.get("*", (req, res) => {
