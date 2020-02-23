@@ -20,9 +20,8 @@ mongoose.connect("mongodb://localhost/marvel", {
     useCreateIndex: true
 });
 
-
 app.get("/", (req, res) => {
-    res.json("Welcome to Marvel API local");
+    res.json("Welcome to Marvel API");
 });
 
 app.get("*", (req, res) => {
@@ -31,5 +30,4 @@ app.get("*", (req, res) => {
 
 app.listen(process.env.PORT || 4000, () => {
     console.log("Server Started");
-
 })
